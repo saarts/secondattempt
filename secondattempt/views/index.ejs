@@ -84,7 +84,7 @@
   <div class="container-fluid">
 
 
-  <h1 class="text-muted text-center" style="color:whitesmoke"><%= title %></h1>
+  <h1 class="text-muted text-center" style="color:whitesmoke">INDIVIDUAL LIGHTS</h1>
 
 
 
@@ -216,14 +216,17 @@
 
 
 
+      <div id="PLCC" class="text-muted text-center" style="color:whitesmoke"></div>
 
   </div>
+
+
 
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
 
-
+      connectionstatus = "";
       livingroombutton = 1;
       livingroomtvbutton = 1;
       kitchenbutton = 1;
@@ -234,7 +237,10 @@
 
       var socket = io();
 
+
+
       $(document).ready(function() {
+
 
           $("#livingbutt").click( function() {
               livingroomBS();
@@ -262,11 +268,11 @@
 
 
 
-      socket.on('fromserver', function (data) {
-          if (data =='interval') {
-//              livingroomBS();
-          }
-      });
+//      socket.on('fromserver', function (data) {
+//          if (data =='interval') {
+////              livingroomBS();
+//          }
+//      });
 
 
 
@@ -306,6 +312,12 @@
           }else{ hallBS();}
       });
 
+      socket.on('PLCethernetconnectionstatus', function (data) {
+//          console.log(data);
+//          $('#PLCconnectionstatus').text(data);
+          $('#PLCC').text(data);
+      });
+
 
       function livingroomBS(){
           livingroombutton++;
@@ -322,11 +334,11 @@
       function livingroomtvBS(){
           livingroomtvbutton++;
           if(livingroomtvbutton == 1){
-              $( "#livingtvbutt" ).removeClass('toggle-button-selected')
+              $( "#livingtvbutt" ).removeClass('toggle-button-selected');
               socket.emit('livingroomtvstate',livingroomtvbutton);
           }
           if(livingroomtvbutton >1){
-              $( "#livingtvbutt" ).addClass('toggle-button-selected')
+              $( "#livingtvbutt" ).addClass('toggle-button-selected');
               livingroomtvbutton = 0;
               socket.emit('livingroomtvstate',livingroomtvbutton);
           }
@@ -334,11 +346,11 @@
       function kitchenBS(){
           kitchenbutton++;
           if(kitchenbutton == 1){
-              $( "#kitchenbutt" ).removeClass('toggle-button-selected')
+              $( "#kitchenbutt" ).removeClass('toggle-button-selected');
               socket.emit('kitchenstate',kitchenbutton);
           }
           if(kitchenbutton >1){
-              $( "#kitchenbutt" ).addClass('toggle-button-selected')
+              $( "#kitchenbutt" ).addClass('toggle-button-selected');
               kitchenbutton = 0;
               socket.emit('kitchenstate',kitchenbutton);
           }
@@ -346,11 +358,11 @@
       function kitchensmallBS(){
           kitchensmallbutton++;
           if(kitchensmallbutton == 1){
-              $( "#kitchensmallbutt" ).removeClass('toggle-button-selected')
+              $( "#kitchensmallbutt" ).removeClass('toggle-button-selected');
               socket.emit('kitchensmallstate',kitchensmallbutton);
           }
           if(kitchensmallbutton >1){
-              $( "#kitchensmallbutt" ).addClass('toggle-button-selected')
+              $( "#kitchensmallbutt" ).addClass('toggle-button-selected');
               kitchensmallbutton = 0;
               socket.emit('kitchensmallstate',kitchensmallbutton);
           }
@@ -358,11 +370,11 @@
       function bathroomBS(){
           bathroombutton++;
           if(bathroombutton == 1){
-              $( "#bathroombutt" ).removeClass('toggle-button-selected')
+              $( "#bathroombutt" ).removeClass('toggle-button-selected');
               socket.emit('bathroomstate',bathroombutton);
           }
           if(bathroombutton >1){
-              $( "#bathroombutt" ).addClass('toggle-button-selected')
+              $( "#bathroombutt" ).addClass('toggle-button-selected');
               bathroombutton = 0;
               socket.emit('bathroomstate',bathroombutton);
           }
@@ -370,11 +382,11 @@
       function bedroomBS(){
           bedroombutton++;
           if(bedroombutton == 1){
-              $( "#bedroombutt" ).removeClass('toggle-button-selected')
+              $( "#bedroombutt" ).removeClass('toggle-button-selected');
               socket.emit('bedroomstate',bedroombutton);
           }
           if(bedroombutton >1){
-              $( "#bedroombutt" ).addClass('toggle-button-selected')
+              $( "#bedroombutt" ).addClass('toggle-button-selected');
               bedroombutton = 0;
               socket.emit('bedroomstate',bedroombutton);
           }
@@ -382,11 +394,11 @@
       function hallBS(){
           hallbutton++;
           if(hallbutton == 1){
-              $( "#hallbutt" ).removeClass('toggle-button-selected')
+              $( "#hallbutt" ).removeClass('toggle-button-selected');
               socket.emit('hallstate',hallbutton);
           }
           if(hallbutton >1){
-              $( "#hallbutt" ).addClass('toggle-button-selected')
+              $( "#hallbutt" ).addClass('toggle-button-selected');
               hallbutton = 0;
               socket.emit('hallstate',hallbutton);
           }
@@ -394,6 +406,8 @@
 
 
   </script>
+
+
 
 
   </body>

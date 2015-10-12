@@ -5,8 +5,12 @@
  */
 
 var app = require('../app');
+var snap7 = require('./snap');
 var debug = require('debug')('secondattempt:server');
 var http = require('http');
+
+
+
 var livingroombutton = 1;
 var livingroomtvbutton = 1;
 var kitchenbutton = 1;
@@ -15,6 +19,9 @@ var bathroombutton = 1;
 var bedroombutton = 1;
 var hallbutton = 1;
 
+//snap7.activityhandler(2);
+console.log(snap7.PLCdata.output1);
+snap7.activityhandler(3);
 
 /**
  * Get port from environment and store in Express.
@@ -29,6 +36,7 @@ app.set('port',port);
 
 var server = http.createServer(app);
 
+var io = require('socket.io').listen(server);
 
 
 /**
@@ -102,7 +110,6 @@ function onListening() {
 
 
 
-var io = require('socket.io').listen(server);
 
 io.on('connection', function(socket){
     console.log('a user connected');
@@ -176,15 +183,18 @@ io.on('connection', function(socket){
     var updateinterval = setInterval(function(){
         //socket.emit('fromserver',"interval");
         //socket.emit('askstates',"doit");
+        //socket.broadcast.emit('PLCethernetconnectionstatus',"doit");
     },3000);
 
 
     socket.on('disconnect', function () {
         clearInterval(updateinterval);
+        console.log('a user disconnected');
     });
 
 
     function refreshbuttons(){
+
         socket.broadcast.emit('PLClivingroom',livingroombutton);
         socket.broadcast.emit('PLClivingroomtv',livingroomtvbutton);
         socket.broadcast.emit('PLCkitchen',kitchenbutton);
@@ -193,7 +203,14 @@ io.on('connection', function(socket){
         socket.broadcast.emit('PLCbedroom',bedroombutton);
         socket.broadcast.emit('PLChall',hallbutton);
 
-    };
+    }
 
 });
+
+
+
+
+
+
+
 
